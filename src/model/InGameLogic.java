@@ -69,22 +69,22 @@ public class InGameLogic {
 	}
 	private void heroAttack(int frame) {
 		// TODO Auto-generated method stub
-		for(IRenderable entity : InGameLogic.listEntities) {
-			if(entity instanceof nuker) {
+		for(int i =0; i<InGameLogic.listEntities.size(); i++) {
+			if(InGameLogic.listEntities.get(i) instanceof nuker) {
 				//System.out.println(((character)entity).name);
-				((nuker)entity).action(frame);
+				((nuker)InGameLogic.listEntities.get(i)).action(frame);
 			}
-			if(entity instanceof sniper ) {
+			if(InGameLogic.listEntities.get(i) instanceof sniper ) {
 				//System.out.println(((character)entity).name);
-				((sniper)entity).action(frame);
+				((sniper)InGameLogic.listEntities.get(i)).action(frame);
 			}
-			if(entity instanceof assault ) {
+			if(InGameLogic.listEntities.get(i) instanceof assault ) {
 				//System.out.println(((character)entity).name);
-				((assault)entity).action(frame);
+				((assault)InGameLogic.listEntities.get(i)).action(frame);
 			}
-			if(entity instanceof engineer ) {
+			if(InGameLogic.listEntities.get(i) instanceof engineer ) {
 				//System.out.println(((character)entity).name);
-				((engineer)entity).action(frame);
+				((engineer)InGameLogic.listEntities.get(i)).action(frame);
 			}
 		}
 		
