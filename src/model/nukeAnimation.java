@@ -4,9 +4,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class nukeAnimetion extends atkanimation {
+public class nukeAnimation extends atkanimation {
 
-	public nukeAnimetion(Entity e, int frame) {
+	public nukeAnimation(Entity e, int frame) {
 		super(e, frame);
 		System.out.println("nukeanitmate crate");
 		// TODO Auto-generated constructor stub
@@ -23,7 +23,7 @@ public class nukeAnimetion extends atkanimation {
 		// TODO Auto-generated method stub
 		Image img = new Image(this.getNukeAtkAnimation()[i%5]);
 		System.out.println("booommmm at "+this.e.posX+" "+this.e.posY);
-		gc.drawImage(img,this.e.posX-100, this.e.posY-100);
+		gc.drawImage(img,this.e.posX, this.e.posY);
 		this.i+=1;
 		System.out.println("nukedraw");
 
@@ -38,7 +38,7 @@ public class nukeAnimetion extends atkanimation {
 	@Override
 	public boolean isVisible() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
