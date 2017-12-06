@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import view.GameScreen;
+
 public class InGameLogic {
 	private List<enemy> tempE ;
 	private map curStage;
 	private List<character> usedHero;
-	private int life = 1;
+	private int life = 10;
 	private int SP = 0;
 	public void setLife(int life) {
 		this.life = life;
@@ -44,9 +46,9 @@ public class InGameLogic {
 			k++;
 		}
 		
-		this.listEntities.add(curStage);
+		listEntities.add(curStage);
 		for(int index =0;index<usedHero.size();index++) {
-			this.listEntities.add(usedHero.get(index));
+			listEntities.add(usedHero.get(index));
 		}
 		
 	}
@@ -58,14 +60,14 @@ public class InGameLogic {
 		return true;
 		
 	}
-	public void update(int frame) {
+	public void update(int frame,GameScreen g) {
 		spawnEnemy(frame);
 		
 		heroLockOn();
 		updateEntities(frame);
 		//System.out.println(frame);
 		heroAttack(frame);
-		clearEntity();
+		clearEntity(g);
 	}
 	private void heroAttack(int frame) {
 		// TODO Auto-generated method stub
@@ -90,10 +92,13 @@ public class InGameLogic {
 		
 		
 	}
-	private void clearEntity() {
+	private void clearEntity(GameScreen g) {
 		// TODO Auto-generated method stub
 		for(int i = InGameLogic.listEntities.size()-1;i>=0;i--) {
-			if(InGameLogic.listEntities.get(i).isDestroyed() || InGameLogic.listEntities.get(i).isVisible()==false )InGameLogic.listEntities.remove(i);
+			if(InGameLogic.listEntities.get(i).isDestroyed() || InGameLogic.listEntities.get(i).isVisible()==false ) {
+				g.paintComponent();
+				InGameLogic.listEntities.remove(i);
+			}
 		}
 		
 	}

@@ -13,6 +13,7 @@ import model.InGameLogic;
 
 public class GameScreen extends Canvas {
 	private InGameLogic logic ;
+	private int frame = 0;
 	
 	public GameScreen(double width, double height,InGameLogic logic) {
 		super(width, height);
@@ -35,9 +36,9 @@ public class GameScreen extends Canvas {
 		gc.setFill(Color.BLACK);
 		for (IRenderable entity : InGameLogic.listEntities) {
 			// System.out.println(InGameLogic.listEntities.size());
-		if (entity.isVisible() && !entity.isDestroyed()) {
+		//if (entity.isVisible() && !entity.isDestroyed()) {
 			    entity.draw(gc);
-			}
+			//}
 		}
 		//if(logic.getLife()==0)gc.fillText("Hp : 0", 25,50);
 		gc.setFill(Color.BLACK);
@@ -46,7 +47,7 @@ public class GameScreen extends Canvas {
 
 		// System.out.println("===============");
 		// System.out.println("===============");
-
+		frame++;
 	}
 
 }

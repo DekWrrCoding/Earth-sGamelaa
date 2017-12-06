@@ -24,7 +24,8 @@ public class nuker extends character implements atkable{
 	public boolean action(int frame) {
 		// TODO Auto-generated method stub
 		if(super.action(frame)) {
-		atkanimation nukeAtk = new atkanimation(this,frame);
+		System.out.println(this.posX+"<-X Y->"+this.posY);
+		atkanimation nukeAtk = new nukeAnimetion(this,frame);
 		InGameLogic.getListEntities().add(nukeAtk);
 	
 		return true;

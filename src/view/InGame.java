@@ -76,7 +76,7 @@ public class InGame {
 		GridPane innerPane = new GridPane();
 		int k=0;
 		for(character i : model.getMyhero()) {
-			Button temp = new Button(i.getName());
+			Button temp = new Button(i.getID()+"");
 			temp.setStyle("-fx-min-height: 60px;\n" + 
 					"    -fx-min-width: 60px;"
 					+ "-fx-background-color:"+i.getLocol()+";"
@@ -97,7 +97,7 @@ public class InGame {
 			temp.setOnAction((event)->
 			{
 				selectedHero.add(i);
-				temp.setText(i.getName()+" selected");
+				temp.setText("X");
 			});
 	        temp.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 	        innerPane.add(temp, k % 8, k /8, 1, 1);
@@ -131,9 +131,10 @@ public class InGame {
 		for(character i : selectedHero) {
 			Button temp = new Button(i.getName());
 			temp.setOnAction((event)->
-			{
+			{	if(!Hero.contains(i)) {
 				Hero.add(i);
 				temp.setText((Hero.size())+"");
+				}
 			});
 			hb.getChildren().add(temp);
 		}
@@ -201,7 +202,7 @@ public class InGame {
 					
 				}
 				
-				logic.update(frame);
+				logic.update(frame,gameScreen);
 				if(command.contains("k"))System.out.println("killall");
 				frame++;
 				

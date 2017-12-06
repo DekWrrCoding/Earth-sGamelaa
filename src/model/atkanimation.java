@@ -6,18 +6,54 @@ import javafx.scene.paint.Color;
 
 public class atkanimation extends Entity implements IRenderable {
 	private int fStart;
-	private static int fEnd = 50;
-	private Entity e ;
-	int i =0;
-	private String[] nukeAtkAnimation = {"nuke1.png","nuke2.png","nuke3.png","nuke4.png","nuke5.png",};
+	private static int fEnd = 90;
+	protected Entity e ;
+	public int i =0;
+	protected String[] nukeAtkAnimation = {"nuke1.png","nuke2.png","nuke3.png","nuke4.png","nuke5.png",};
+	private String[] sniperAtkAnimation = {"sniperAtk.png"};
+	private String[] engineerAtkAnimation = {};
+	private String[] assaultAtkAnimation = {};
 	public atkanimation(Entity e,int frame) {
 		super();
 		this.e = e;
 		this.fStart = frame;
 		this.setVisible(true);
 		this.setDestroyed(false);
-		System.out.println("create "+e+" "+fStart+" ");
+		//System.out.println("create "+e+" "+fStart+" ");
 	}
+	
+	public int getfStart() {
+		return fStart;
+	}
+
+	public static int getfEnd() {
+		return fEnd;
+	}
+
+	public Entity getE() {
+		return e;
+	}
+
+	public int getI() {
+		return i;
+	}
+
+	public String[] getNukeAtkAnimation() {
+		return nukeAtkAnimation;
+	}
+
+	public String[] getSniperAtkAnimation() {
+		return sniperAtkAnimation;
+	}
+
+	public String[] getEngineerAtkAnimation() {
+		return engineerAtkAnimation;
+	}
+
+	public String[] getAssaultAtkAnimation() {
+		return assaultAtkAnimation;
+	}
+
 	public void update(int frame) {
 		System.out.println(""+this.fStart+"  "+frame);
 		if(frame-this.fStart >= fEnd) {
@@ -32,15 +68,8 @@ public class atkanimation extends Entity implements IRenderable {
 		return 0;
 	}
 
-	@Override
-	public void draw(GraphicsContext gc) {
 
-		Image img = new Image(this.nukeAtkAnimation[i%5]);
-		System.out.println("booommmm");
-		gc.drawImage(img,this.e.posX, this.e.posY);
-		i++;
-		
-	}
+	
 
 	@Override
 	public boolean isDestroyed() {
@@ -52,6 +81,12 @@ public class atkanimation extends Entity implements IRenderable {
 	public boolean isVisible() {
 		// TODO Auto-generated method stub
 		return this.isVisible;
+	}
+
+	@Override
+	public void draw(GraphicsContext gc) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
