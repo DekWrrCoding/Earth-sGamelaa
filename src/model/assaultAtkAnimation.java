@@ -8,7 +8,7 @@ public class assaultAtkAnimation extends atkanimation implements IRenderable {
 	public assaultAtkAnimation(Entity e, int frame) {
 		super(e, frame);
 		// TODO Auto-generated constructor stub
-		this.setfEnd(10);
+		this.setfEnd(3);
 	}
 	@Override
 	public void draw(GraphicsContext gc) {
