@@ -23,14 +23,16 @@ public class nuker extends character implements atkable{
 	@Override
 	public boolean action(int frame) {
 		// TODO Auto-generated method stub
+		boolean bool = false;
 		if(super.action(frame)) {
 		System.out.println(this.posX+"<-X Y->"+this.posY);
-		atkanimation nukeAtk = new nukeAnimetion(this,frame);
+		nukeAnimetion nukeAtk = new nukeAnimetion(this,frame);
 		InGameLogic.getListEntities().add(nukeAtk);
 	
-		return true;
+		bool = true;
 		}
-		return false;
+		this.clearLockedEnemy();
+		return bool;
 	}
 	@Override
 	public boolean attackEnemy(IRenderable otherentity) {

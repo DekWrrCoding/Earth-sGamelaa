@@ -31,22 +31,22 @@ public  class character extends Entity {
 	public boolean action(int frame) {
 		boolean bool = false;
 		if(frame % this.atkspeed == 0) {
-			System.out.println(this.name+" attack "+ this.lockOnEnemy.size()+" enemy "+frame+" "+this.atkspeed);
+			//System.out.println(this.name+" attack "+ this.lockOnEnemy.size()+" enemy "+frame+" "+this.atkspeed);
 				for( enemy i: lockOnEnemy) {
 				
 				this.attack(i);
 				}
 				bool = true;
 		}
+			
+		return bool;
 		
-		//System.out.println("remove"+this.lockOnEnemy.size());
+	}
+	public void clearLockedEnemy() {
 		while(this.lockOnEnemy.size()!=0) {
 			this.lockOnEnemy.get(0).setIsLocked(false);
 			this.lockOnEnemy.remove(0);
 		}
-			
-		return bool;
-		
 	}
 	private void attack(enemy i) {
 		// TODO Auto-generated method stub

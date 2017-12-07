@@ -18,6 +18,7 @@ public class sniper extends character implements atkable{
 		// TODO Auto-generated constructor stub
 		super(sniper);
 		this.numLockEnemy =1;
+		
 		//this.logoUrl="sniperlogo.png";
 		//this.logoUrl="sniperlogo.png";
 		//this.logoUrl="engineerlogo.png";
@@ -28,7 +29,15 @@ public class sniper extends character implements atkable{
 	@Override
 	public boolean action(int frame) {
 		// TODO Auto-generated method stub
-		return super.action(frame);
+		if(super.action(frame)) {
+			for(enemy i :this.lockOnEnemy) {
+				sniperAnimation sniperAtk = new sniperAnimation(i,frame);
+				InGameLogic.getListEntities().add(sniperAtk);
+			}
+			
+		}
+		this.clearLockedEnemy();
+		return false;
 	}
 	@Override
 	public boolean attackEnemy(IRenderable otherentity) {

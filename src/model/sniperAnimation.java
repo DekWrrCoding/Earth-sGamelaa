@@ -2,34 +2,25 @@ package model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
-public class nukeAnimetion extends atkanimation {
+public class sniperAnimation extends atkanimation implements IRenderable {
 
-	public nukeAnimetion(Entity e, int frame) {
+	public sniperAnimation(Entity e, int frame) {
 		super(e, frame);
 		this.setfEnd(5);
-		//System.out.println("nukeanitmate crate");
+		//System.out.println("sniper create");
+		
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public int getZ() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	@Override
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
-		Image img = new Image(this.getNukeAtkAnimation()[i%5]);
+		Image img = new Image(this.getSniperAtkAnimation()[0],40,40,false,false);
 		//System.out.println("booommmm at "+this.e.posX+" "+this.e.posY);
-		gc.drawImage(img,this.e.posX-100, this.e.posY-100);
+		gc.drawImage(img,this.e.posX, this.e.posY);
 		this.i+=1;
-		System.out.println("nukedraw");
-
+		//System.out.println("sniperattackdraw");
 	}
-
 	@Override
 	public boolean isDestroyed() {
 		// TODO Auto-generated method stub
@@ -42,5 +33,4 @@ public class nukeAnimetion extends atkanimation {
 		// TODO Auto-generated method stub
 	
 	}
-
 }

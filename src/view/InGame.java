@@ -163,24 +163,19 @@ public class InGame {
 //				// TODO Auto-generated method stub
 //				while(!(logic.isGameEnd() && curStage.getListEnemy().size() == 0 || logic.getLife() == 0 || logic.isNoEnemy() && logic.getTempE().size()==0)) {
 //					gameScreen.paintComponent();
-//					logic.update(frame);
+//					logic.update(frame, gameScreen);
 //					if(command.contains("k"))System.out.println("killall");
 //					frame++;
-//					try {
-//						Thread.sleep(16);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					//model.logicUpdate();
-//					//InputUtility.updateInputState();
+//					
+//	
+//					
 //				}
-//				alert();
+//			alert();
 //			}
 //		});
+//		animation.setDaemon(true);
 //		animation.start();
-//		//alert();
-//		//EarthGameView.drawHome();
+//		alert();
 		
 		AnimationTimer animation = new AnimationTimer() {
 			public void handle(long now) {
@@ -192,45 +187,32 @@ public class InGame {
 					logic.newGame();
 					model.decreaseMoney(-1*(curStage.getMoneyFromMap()));
 					System.out.println(model.getMoney());
-					//alert
-					//animation.
-	                //alert();
-	                
+	                alert();
 					EarthGameView.drawHome();
-					
-					
-					
 				}
 				
 				logic.update(frame,gameScreen);
 				if(command.contains("k"))System.out.println("killall");
 				frame++;
-				
-			
-			//	model.logicUpdate();
-				
-			//	InputUtility.updateInputState();
+
 				try {
 					Thread.sleep(32);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					// TODO Auto-generated catch block
 				}
 			}
 		
 		};
 		animation.start();
-		//animation.stop();
-		//EarthGameView.drawHome();
 		System.out.println(1234567);
 		
-	}
+		}
 	public void alert() {
-		Alert alert = new Alert(AlertType.CONFIRMATION,"Clear Mission", ButtonType.OK);
+		Alert alert = new Alert(AlertType.CONFIRMATION,"Clear Mission !\nYou curent Money is "+model.getMoney(), ButtonType.OK);
         alert.setTitle("Clear");
       
         alert.setHeaderText("");
-        alert.showAndWait();
+        alert.show();
 	}
 	private void addListener(GameScreen gameScreen) {
 		// TODO Auto-generated method stub

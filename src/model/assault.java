@@ -28,7 +28,14 @@ public class assault extends character implements atkable{
 	@Override
 	public boolean action(int frame) {
 		// TODO Auto-generated method stub
-		return super.action(frame);
+		if(super.action(frame)) {
+			for(enemy i :this.lockOnEnemy) {
+				assaultAtkAnimation assaultAtk = new assaultAtkAnimation(i, frame);
+				InGameLogic.listEntities.add(assaultAtk);
+			}
+			clearLockedEnemy();
+		}
+		return false;
 	}
 	public boolean attackEnemy(IRenderable otherentity) {
 		// TODO Auto-generated method stub

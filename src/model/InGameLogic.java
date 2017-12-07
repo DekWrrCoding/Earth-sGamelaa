@@ -132,7 +132,7 @@ public class InGameLogic {
 				}
 			}
 			if(entity instanceof atkanimation) {
-				System.out.println("update atkanimation");
+				//System.out.println("update atkanimation");
 				((atkanimation) entity).update(frame);
 			}
 		}
