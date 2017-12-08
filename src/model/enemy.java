@@ -1,23 +1,27 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public  class enemy extends Entity implements IRenderable {
 	private int hp;
 	private int speed;
 	protected int maxHp;
-	private String direction;
 	private boolean isLocked = false;
+	protected List<Image> img;
 
-	public enemy(int hp, int speed,int X,int Y) {
+	public enemy(int hp, int speed,double d,double e) {
 		super();
 		this.hp = hp;
 		this.maxHp = hp;
 		this.speed = speed;
-		this.posX = X*40;
-		this.posY = Y*40 ;
-		this.direction = "d";
+		this.posX = d*40;
+		this.posY = e*40 ;
+		this.img = new ArrayList<>();
 	}
 	public enemy(enemy enemy) {
 		// TODO Auto-generated constructor stub
@@ -26,7 +30,7 @@ public  class enemy extends Entity implements IRenderable {
 		this.speed = enemy.speed;
 		this.posX = enemy.posX;
 		this.posY = enemy.posY ;
-		//return this;
+		this.img = enemy.img;
 	}
 	public boolean isLocked() {
 		return isLocked;
@@ -37,12 +41,7 @@ public  class enemy extends Entity implements IRenderable {
 	public int getHp() {
 		return hp;
 	}
-	public String getDirection() {
-		return this.direction;
-	}
-	public void setDirection(String direction) {
-		this.direction = direction;
-	}
+
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
@@ -55,11 +54,7 @@ public  class enemy extends Entity implements IRenderable {
 		this.speed = speed;
 	}
 
-	@Override
-	public int getZ() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	@Override
 	public void draw(GraphicsContext gc) {
@@ -85,12 +80,10 @@ public  class enemy extends Entity implements IRenderable {
 	}
 	public void drawHpBar(GraphicsContext gc) {
 		gc.setStroke(Color.BLACK);
-		gc.strokeRect(posX, posY, 40, 5);
+		gc.strokeRect(posX*1.5, posY*1.5, 40*1.5, 5*1.5);
 		if(this.isLocked)gc.setFill(Color.GREY);
 		else gc.setFill(Color.CRIMSON);
-		
-		//System.out.println();
-		gc.fillRect(posX, posY,((double)(this.getHp())/(double)this.maxHp)*40, 5);
+		gc.fillRect(posX*1.5, posY*1.5,((double)(this.getHp())/(double)this.maxHp)*40, 5*1.5);
 	}
 
 	@Override

@@ -1,7 +1,8 @@
 package model;
 
 public abstract class Entity implements IRenderable{
-	protected int posX,posY;
+	double posX;
+	protected double posY;
 	protected boolean isVisible =true;
 	protected boolean isDestroyed =false;
 	public boolean isVisible() {
@@ -16,7 +17,7 @@ public abstract class Entity implements IRenderable{
 		this.isDestroyed = isDestroyed;
 	}
 
-	public int getPosX() {
+	public double getPosX() {
 		return posX;
 	}
 
@@ -24,7 +25,7 @@ public abstract class Entity implements IRenderable{
 		this.posX = posX;
 	}
 
-	public int getPosY() {
+	public double getPosY() {
 		return posY;
 	}
 

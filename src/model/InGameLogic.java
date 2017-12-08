@@ -9,29 +9,13 @@ import view.GameScreen;
 public class InGameLogic {
 	private List<enemy> tempE ;
 	private map curStage;
+	private List<enemy> bSkillEnemy ;
 	private List<character> usedHero;
 	private int life = 10;
 	private int SP = 0;
-	public void setLife(int life) {
-		this.life = life;
-	}
-	public List<enemy> getTempE() {
-		return tempE;
-	}
-	public map getCurStage() {
-		return curStage;
-	}
-	public List<character> getUsedHero() {
-		return usedHero;
-	}
-	public int getSP() {
-		return SP;
-	}
-	public static List<IRenderable> getListEntities() {
-		return listEntities;
-	}
 	public static List<IRenderable> listEntities = new ArrayList<>();
 	public InGameLogic(map curStage,List<character> usehero){
+		this.bSkillEnemy = new ArrayList<>();
 		this.curStage=curStage;
 		this.usedHero=usehero;
 		this.tempE = new ArrayList<enemy>();
@@ -52,22 +36,56 @@ public class InGameLogic {
 		}
 		
 	}
+
+	public void setSP(int sP) {
+		SP = sP;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public List<enemy> getTempE() {
+		return tempE;
+	}
+	public map getCurStage() {
+		return curStage;
+	}
+	public List<character> getUsedHero() {
+		return usedHero;
+	}
+	public int getSP() {
+		return SP;
+	}
+	public static List<IRenderable> getListEntities() {
+		return listEntities;
+	}
 	public int getLife() {
 		return life;
 	}
-	public boolean isNoEnemy() {
+
+	public  boolean isNoEnemy() {
 		for(IRenderable i : InGameLogic.listEntities)if(i instanceof enemy)return false;
 		return true;
 		
 	}
-	public void update(int frame,GameScreen g) {
+	public  void update(int frame,GameScreen g) {
 		spawnEnemy(frame);
 		
 		heroLockOn();
 		updateEntities(frame);
 		//System.out.println(frame);
 		heroAttack(frame);
+		skill();
 		clearEntity(g);
+	}
+	private void skill() {
+		// TODO Auto-generated method stub
+		//this.SP-=10;
+		for(enemy i : this.bSkillEnemy) {
+			i.takeDamage(5000);
+		}
+		this.bSkillEnemy=null;
+		this.bSkillEnemy=new ArrayList<>();
+		
 	}
 	private void heroAttack(int frame) {
 		// TODO Auto-generated method stub
@@ -97,6 +115,7 @@ public class InGameLogic {
 		for(int i = InGameLogic.listEntities.size()-1;i>=0;i--) {
 			if(InGameLogic.listEntities.get(i).isDestroyed() || InGameLogic.listEntities.get(i).isVisible()==false ) {
 				g.paintComponent();
+				if(InGameLogic.listEntities.get(i) instanceof enemy)this.SP+=1;
 				InGameLogic.listEntities.remove(i);
 			}
 		}
@@ -150,10 +169,28 @@ public class InGameLogic {
 			else if(this.tempE.get(x) instanceof troopE) {
 				temp = new troopE(this.tempE.get(x));
 			}
+			else if(this.tempE.get(x) instanceof Boss) {
+				temp = new Boss(this.tempE.get(x));
+			}
 			InGameLogic.listEntities.add((IRenderable)temp);
 			this.tempE.remove(x);
 		}
 		
+	}
+	private double Distance (double d,double e ,double x1,double y1) {
+		double x2 =(double)d;
+		double y2 =(double)e;
+		double ans = Math.sqrt((x1-x2)*(x1-x2)-(y1-y2)*(y1-y2));
+		return ans;
+		
+	}
+	public void lockedskill(double mx, double my) {
+		for(IRenderable entity : this.listEntities) {
+			if(entity instanceof enemy && Distance(	((enemy) entity).getPosX(),((enemy) entity).getPosY(),mx,my) <= 300)  {
+				this.bSkillEnemy.add((enemy) entity);
+			}
+		}
+		System.out.println(this.bSkillEnemy);
 	}
 	public boolean isGameEnd() {
 		// TODO Auto-generated method stub

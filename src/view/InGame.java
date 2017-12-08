@@ -11,67 +11,98 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import model.ButtonAtHome;
+import model.Dummy;
 import model.EarthGameModel;
 import model.InGameLogic;
 import model.atkanimation;
 import model.character;
 import model.enemy;
 import model.map;
+import model.nukeAnimation;
+import model.skillAnimation;
 
 
 
 
 public class InGame {
+	private double mx=0,my=0;
 	private Stage primaryStage;
 	private EarthGameModel model;
 	private Canvas game;
 	private String command ="";
+	private InGameLogic logic;
+	int k=0;
+	//public static AllPhoto pic ;
 	int frame=1;
 	public InGame(Stage primaryStage,EarthGameModel model) {
 		this.model=model;
+		Canvas c = new Canvas(640,480);
+		//this.pic = new AllPhoto();
 		this.primaryStage=primaryStage;
 		BorderPane root =new BorderPane();
 		List<character> selectedHero = new ArrayList<>();
-		HBox hbx = new HBox();
-		Button end = new Button("goback");
+		VBox vbx = new VBox();
+		ButtonAtHome end = new ButtonAtHome("goback");
+//		for(int i=0;i< model.getListmaps().size();i++) {
+//			Button stage = new Button("Stage "+(k+1)+" need "+model.getListmaps().get(k).getnTower()+" heros");
+//			stage.setOnAction(event-> {
+//				if(selectedHero.size() == model.getListmaps().get(k).getnTower())
+//					drawPreGame(model.getListmaps().get(k),selectedHero);
+//			});
+//			vbx.getChildren().add(stage);
+//			k++;
+//		}
+//		vbx.getChildren().add(end);
 		Button stage1 = new Button("Stage 1 need "+model.getListmaps().get(0).getnTower()+" heros");
 		stage1.setOnAction(event-> {
+			System.out.println(model.getListmaps().size());
 			if(selectedHero.size() == model.getListmaps().get(0).getnTower())
 				drawPreGame(model.getListmaps().get(0),selectedHero);
 		});
 		Button stage2 = new Button("Stage 2 need "+model.getListmaps().get(1).getnTower()+" heros");
 		stage2.setOnAction(event-> {
-			if(selectedHero.size() == model.getListmaps().get(1).getnTower())
+			System.out.println(selectedHero.size());
+			if(selectedHero.size() == model.getListmaps().get(1).getnTower()) {
+				System.out.println("earth");
 				drawPreGame(model.getListmaps().get(1),selectedHero);
+			}
 			//startGame(primaryStage, model.getListmaps().get(1), selectedHero);
 		});
-//		Button stage3 = new Button("Stage 3 need "+model.getListmaps().get(2).getnTower()+" heros");
-//		stage3.setOnAction(event-> {
-//			if(selectedHero.size() == model.getListmaps().get(2).getnTower())
-//			startGame(primaryStage, model.getListmaps().get(2), selectedHero);
-//		});
+		Button stage3 = new Button("Stage 3 need "+model.getListmaps().get(2).getnTower()+" heros");
+		stage3.setOnAction(event-> {
+			System.out.println(selectedHero.size());
+			if(selectedHero.size() == model.getListmaps().get(2).getnTower())
+				drawPreGame(model.getListmaps().get(2),selectedHero);
+			
+		});
 		end.setOnAction(event -> {
 			EarthGameView.drawHome();
 			
 		});
-		hbx.getChildren().addAll(stage1,stage2,end);
-		root.setTop(hbx);
+		vbx.getChildren().addAll(stage1,stage2,stage3,end);
+		root.setLeft(vbx);
 
 
 		
 		//char sle
 		StackPane home = new StackPane();
-		Canvas chome = new Canvas(480,640);
+		Canvas chome = new Canvas(520,680);
 		GraphicsContext gc = chome.getGraphicsContext2D();
-		
+		Image img = new Image("homepage.jpeg");
+		gc.drawImage(img, 0, 0);
 		BorderPane charselection = new BorderPane();
 		GridPane innerPane = new GridPane();
 		int k=0;
@@ -117,11 +148,12 @@ public class InGame {
 		BorderPane bdpane = new BorderPane();
 		StackPane base = new StackPane();
 		GridPane grid = new GridPane();
-		Canvas c = new Canvas(640,480);
+		Canvas c = new Canvas(960,720);
 		bdpane.setCenter(base);
 		base.getChildren().addAll(c,grid);
 		GraphicsContext gc = c.getGraphicsContext2D();
 		map.draw(gc);
+		map.drawadd(gc);
 		Button start = new Button("StartGame");
 		start.setOnAction(event ->{
 			startGame(this.primaryStage,map, Hero);
@@ -150,8 +182,8 @@ public class InGame {
 		
 		stage.setTitle("Tank game");
 		
-		InGameLogic logic = new InGameLogic(curStage,usehero);
-		GameScreen gameScreen = new GameScreen(640.0, 480.0,logic);
+		logic = new InGameLogic(curStage,usehero);
+		GameScreen gameScreen = new GameScreen(920.0, 720.0,logic);
 		addListener(gameScreen);
 		root.getChildren().add(gameScreen);
 		stage.setScene(scene);
@@ -159,23 +191,44 @@ public class InGame {
 //		Thread animation = new Thread(new Runnable() {
 //			
 //			@Override
-//			public void run() {
+//			public synchronized void run() {
 //				// TODO Auto-generated method stub
 //				while(!(logic.isGameEnd() && curStage.getListEnemy().size() == 0 || logic.getLife() == 0 || logic.isNoEnemy() && logic.getTempE().size()==0)) {
 //					gameScreen.paintComponent();
-//					logic.update(frame, gameScreen);
-//					if(command.contains("k"))System.out.println("killall");
-//					frame++;
-//					
+//					try {
+//						Thread.sleep(16);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 //	
 //					
 //				}
 //			alert();
 //			}
 //		});
+//		Thread calculate = new Thread(new Runnable() {
+//			
+//			@Override
+//			public synchronized void run() {
+//				// TODO Auto-generated method stub
+//				while(!(logic.isGameEnd() && curStage.getListEnemy().size() == 0 || logic.getLife() == 0 || logic.isNoEnemy() && logic.getTempE().size()==0)) {
+//					
+//					logic.update(frame, gameScreen);
+//				
+//					frame++;
+//					
+//	
+//					
+//				}
+//				
+//			}
+//		});
 //		animation.setDaemon(true);
+//		calculate.setDaemon(true);
 //		animation.start();
-//		alert();
+//		calculate.start();
+		
 		
 		AnimationTimer animation = new AnimationTimer() {
 			public void handle(long now) {
@@ -188,7 +241,7 @@ public class InGame {
 					model.decreaseMoney(-1*(curStage.getMoneyFromMap()));
 					System.out.println(model.getMoney());
 	                alert();
-					EarthGameView.drawHome();
+					EarthGameView.drawClearGame();
 				}
 				
 				logic.update(frame,gameScreen);
@@ -217,12 +270,21 @@ public class InGame {
 	private void addListener(GameScreen gameScreen) {
 		// TODO Auto-generated method stub
 		gameScreen.setOnMouseMoved(value -> {
-			System.out.println(value.getX());
+			this.mx = value.getX();
+			this.my = value.getY();
 		});
 		gameScreen.setOnKeyPressed(event -> {
-			System.out.println(event.getText());
-			if(event.getText()== "k") {
-			command += "k";
+			
+			if(event.getCode() == KeyCode.K) {
+			System.out.println("mouse @ : "+this.mx+" "+this.my);
+			if(logic.getSP()>=1) {
+				logic.lockedskill(this.mx,this.my);
+				logic.setSP(logic.getSP()-1);
+				Dummy temp = new Dummy(this.mx,this.my);
+				atkanimation skillAtk = new skillAnimation(temp,frame);
+				
+				InGameLogic.getListEntities().add(skillAtk);
+			}
 			}
 		});
 		gameScreen.setOnKeyReleased(event ->{

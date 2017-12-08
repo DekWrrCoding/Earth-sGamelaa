@@ -1,4 +1,4 @@
-package model;
+ package model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public  class character extends Entity {
-	protected List<enemy> lockOnEnemy = new ArrayList();
+	protected List<enemy> lockOnEnemy = new ArrayList<>();
 	protected int numLockEnemy ;
 	static int IDcount = 0;
 	static final int[] maxExpLv = {0,10,20,50,100,150,250,400,600,900};
@@ -16,7 +16,6 @@ public  class character extends Entity {
 	int lv = 1;
 	String locol ;
 	String logoUrl;
-	double[] multiply;
 	String name;
 	int ID ;
 	int star;
@@ -31,7 +30,6 @@ public  class character extends Entity {
 	public boolean action(int frame) {
 		boolean bool = false;
 		if(frame % this.atkspeed == 0) {
-			//System.out.println(this.name+" attack "+ this.lockOnEnemy.size()+" enemy "+frame+" "+this.atkspeed);
 				for( enemy i: lockOnEnemy) {
 				
 				this.attack(i);
@@ -43,12 +41,10 @@ public  class character extends Entity {
 		
 	}
 	public void clearLockedEnemy() {
-		while(this.lockOnEnemy.size()!=0) {
-			this.lockOnEnemy.get(0).setIsLocked(false);
-			this.lockOnEnemy.remove(0);
-		}
+		this.lockOnEnemy = null;
+		this.lockOnEnemy = new ArrayList<>();
 	}
-	private void attack(enemy i) {
+	public void attack(enemy i) {
 		// TODO Auto-generated method stub
 		((enemy)i).takeDamage(this.attack);
 		
@@ -140,16 +136,11 @@ public  class character extends Entity {
 		return atkrange;
 	}
 	@Override
-	public int getZ() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
-		Image img = new Image("tower.png");
-		gc.drawImage(img, this.posX, this.posY);
-		gc.fillText(this.getName(), this.posX, this.posY);
+		Image img = new Image("tower.png",60,60,false,false);
+		gc.drawImage(img, this.posX*1.5, this.posY*1.5);
+		gc.fillText(this.getName(), this.posX*1.5, this.posY*1.5);
 	}
 	@Override
 	public boolean isDestroyed() {

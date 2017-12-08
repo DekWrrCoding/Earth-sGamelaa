@@ -8,18 +8,19 @@ public class sniperAnimation extends atkanimation implements IRenderable {
 	public sniperAnimation(Entity e, int frame) {
 		super(e, frame);
 		this.setfEnd(5);
-		//System.out.println("sniper create");
-		
+		for(String i : this.sniperAtk) {
+			Image img = new Image(i,40*1.5,40*1.5,false,false);
+			sniperAtkAnimation.add(img);
+		}
 		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public void draw(GraphicsContext gc) {
+		
 		// TODO Auto-generated method stub
-		Image img = new Image(this.getSniperAtkAnimation()[0],40,40,false,false);
-		//System.out.println("booommmm at "+this.e.posX+" "+this.e.posY);
-		gc.drawImage(img,this.e.posX, this.e.posY);
+		Image img =  sniperAtkAnimation.get(0);
+		gc.drawImage(img,this.e.posX*1.5, this.e.posY*1.5);
 		this.i+=1;
-		//System.out.println("sniperattackdraw");
 	}
 	@Override
 	public boolean isDestroyed() {

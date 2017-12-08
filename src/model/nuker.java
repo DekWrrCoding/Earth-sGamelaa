@@ -41,12 +41,8 @@ public class nuker extends character implements atkable{
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 				enemy temp = (enemy)otherentity; 
-				//System.out.println((this.posX-temp.posX)*(this.posX-temp.posX) + (this.posY-temp.posY)*(this.posY-temp.posY) );
-				int posEnemyXinTable = temp.getPosX()/40;
-				int posEnemyYinTable = temp.getPosY()/40;
 				double disX = (double)this.posX/40.0 - (double)temp.posX/40.0;
 				double disY = (double)this.posY/40.0 - (double)temp.posY/40.0;
-				//System.out.println(disX +"<-x y->"+disY+"\n");
 				if(Math.sqrt( disX*disX +disY*disY) <=this.atkrange) {
 					if(this.lockOnEnemy.size()<this.numLockEnemy  && this.lockOnEnemy.contains(temp) == false) {
 						this.lockOnEnemy.add(temp);

@@ -8,16 +8,19 @@ public class assaultAtkAnimation extends atkanimation implements IRenderable {
 	public assaultAtkAnimation(Entity e, int frame) {
 		super(e, frame);
 		// TODO Auto-generated constructor stub
-		this.setfEnd(3);
+		this.setfEnd(5);
+		for(String i : assaultAtk) {
+			Image img = new Image(i,60*1.5,120*1.5,false,false);
+			assaultAtkAnimation.add(img);
+		}
 	}
 	@Override
 	public void draw(GraphicsContext gc) {
+		;
 		// TODO Auto-generated method stub
-		Image img = new Image(this.getAssaultAtkAnimation()[i%3],60,120,false,false);
-	
-		gc.drawImage(img,this.e.posX-10, this.e.posY-70);
+		Image img =  assaultAtkAnimation.get(i%3);
+		gc.drawImage(img,(this.e.posX-10)*1.5, (this.e.posY-70)*1.5);
 		this.i+=1;
-		//System.out.println("sniperattackdraw");
 	}
 	@Override
 	public boolean isDestroyed() {
@@ -31,11 +34,7 @@ public class assaultAtkAnimation extends atkanimation implements IRenderable {
 		// TODO Auto-generated method stub
 	
 	}
-	@Override
-	public int getZ() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	
 
