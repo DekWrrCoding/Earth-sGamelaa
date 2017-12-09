@@ -7,8 +7,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import model.EarthGameModel;
-import model.IRenderable;
 import model.InGameLogic;
+
 
 
 public class GameScreen extends Canvas {

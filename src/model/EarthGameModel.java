@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Character.assault;
+import Character.character;
+import Character.engineer;
+import Character.nuker;
+import Character.sniper;
+
 public class EarthGameModel {
 	private  List<map> listmaps = new ArrayList<>();
 	private  List<character> hero = new ArrayList<>();

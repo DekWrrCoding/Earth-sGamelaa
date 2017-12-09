@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Character.character;
+import Inteface.IRenderable;
+import enemy.Boss;
+import enemy.enemy;
+import enemy.tank;
+import enemy.troopE;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;

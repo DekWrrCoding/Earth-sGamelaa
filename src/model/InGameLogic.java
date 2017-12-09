@@ -1,9 +1,22 @@
 package model;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Character.assault;
+import Character.character;
+import Character.engineer;
+import Character.nuker;
+import Character.sniper;
+import Inteface.IRenderable;
+import atkAnimation.atkanimation;
+import enemy.Boss;
+import enemy.enemy;
+import enemy.tank;
+import enemy.troopE;
 import view.GameScreen;
 
 public class InGameLogic {
@@ -180,7 +193,7 @@ public class InGameLogic {
 	private double Distance (double d,double e ,double x1,double y1) {
 		double x2 =(double)d;
 		double y2 =(double)e;
-		double ans = Math.sqrt((x1-x2)*(x1-x2)-(y1-y2)*(y1-y2));
+		double ans = Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 		return ans;
 		
 	}

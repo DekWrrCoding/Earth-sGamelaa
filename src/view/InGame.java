@@ -4,6 +4,11 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
+import Character.Dummy;
+import Character.character;
+import atkAnimation.atkanimation;
+import atkAnimation.skillAnimation;
+import enemy.enemy;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -20,24 +25,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import model.ButtonAtHome;
-import model.Dummy;
 import model.EarthGameModel;
 import model.InGameLogic;
-import model.atkanimation;
-import model.character;
-import model.enemy;
 import model.map;
-import model.nukeAnimation;
-import model.skillAnimation;
 
 
 
 
 public class InGame {
+	private static AudioClip bgm = new AudioClip(ClassLoader.getSystemResource("fight.mp3").toString());
+	private static AudioClip skillsound = new AudioClip(ClassLoader.getSystemResource("skill.wav").toString());
 	private double mx=0,my=0;
 	private Stage primaryStage;
 	private EarthGameModel model;
@@ -47,8 +49,22 @@ public class InGame {
 	int k=0;
 	//public static AllPhoto pic ;
 	int frame=1;
+	
 	public InGame(Stage primaryStage,EarthGameModel model) {
 		this.model=model;
+		bgm.setVolume(0.2);
+		Thread music = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				System.out.println("BGM");
+				while(bgm.isPlaying() == false)bgm.play();
+				
+			}
+		});
+		music.setDaemon(true);
+		music.start();
 		Canvas c = new Canvas(640,480);
 		//this.pic = new AllPhoto();
 		this.primaryStage=primaryStage;
@@ -89,6 +105,8 @@ public class InGame {
 			
 		});
 		end.setOnAction(event -> {
+			bgm.stop();
+			music.stop();
 			EarthGameView.drawHome();
 			
 		});
@@ -235,13 +253,26 @@ public class InGame {
 				gameScreen.paintComponent();
 				
 				//System.out.println(""+logic.getLife()+"  "+logic.isNoEnemy()+"  "+logic.getTempE());
-				if( logic.getLife() == 0 || logic.isNoEnemy() && logic.getTempE().size()==0) {
+				if(logic.getLife() == 0 ) {
+					this.stop();
+					logic.newGame();
+					//model.decreaseMoney(-1*(curStage.getMoneyFromMap()));
+					//System.out.println(model.getMoney());
+					bgm.stop();
+	                alertFail();
+	                EarthGameView.drawClearGame("Fail");
+	                	
+					
+				}
+				else if(  logic.isNoEnemy() && logic.getTempE().size()==0) {
 					this.stop();
 					logic.newGame();
 					model.decreaseMoney(-1*(curStage.getMoneyFromMap()));
 					System.out.println(model.getMoney());
+					bgm.stop();
 	                alert();
-					EarthGameView.drawClearGame();
+	                EarthGameView.drawClearGame("Clear");
+	                	
 				}
 				
 				logic.update(frame,gameScreen);
@@ -254,12 +285,23 @@ public class InGame {
 					e.printStackTrace();
 				}
 			}
+
+			
 		
 		};
 		animation.start();
 		System.out.println(1234567);
 		
 		}
+	public void alertFail() {
+		// TODO Auto-generated method stub
+		Alert alert = new Alert(AlertType.ERROR,"Mission Fail !\nYou NOOB",ButtonType.OK);
+        alert.setTitle("Fail");
+      
+        alert.setHeaderText("");
+        alert.show();
+		
+	}
 	public void alert() {
 		Alert alert = new Alert(AlertType.CONFIRMATION,"Clear Mission !\nYou curent Money is "+model.getMoney(), ButtonType.OK);
         alert.setTitle("Clear");
@@ -277,14 +319,18 @@ public class InGame {
 			
 			if(event.getCode() == KeyCode.K) {
 			System.out.println("mouse @ : "+this.mx+" "+this.my);
-			if(logic.getSP()>=1) {
+			if(logic.getSP()>=0) {
+				skillsound.play();
 				logic.lockedskill(this.mx,this.my);
-				logic.setSP(logic.getSP()-1);
+				logic.setSP(logic.getSP());
 				Dummy temp = new Dummy(this.mx,this.my);
 				atkanimation skillAtk = new skillAnimation(temp,frame);
 				
 				InGameLogic.getListEntities().add(skillAtk);
 			}
+			}
+			if(event.getCode()==KeyCode.Q) {
+				logic.setLife(0);
 			}
 		});
 		gameScreen.setOnKeyReleased(event ->{

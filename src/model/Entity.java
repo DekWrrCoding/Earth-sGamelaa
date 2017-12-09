@@ -1,7 +1,9 @@
 package model;
 
+import Inteface.IRenderable;
+
 public abstract class Entity implements IRenderable{
-	double posX;
+	protected double posX;
 	protected double posY;
 	protected boolean isVisible =true;
 	protected boolean isDestroyed =false;

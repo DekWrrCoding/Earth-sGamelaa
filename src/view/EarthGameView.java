@@ -3,35 +3,26 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
-import javafx.geometry.HPos;
+import Character.character;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import model.ButtonAtHome;
 import model.EarthGameModel;
-import model.character;
+
 
 public class EarthGameView {
 	private static final Font TEXT_FONT = new Font("Merkur", 20);
@@ -42,6 +33,11 @@ public class EarthGameView {
 	private static List<Image> home;
 	private static List<Image> summon;
 	private static Image endImg ;
+	public static Thread music;
+	private static AudioClip bclick = new AudioClip(ClassLoader.getSystemResource("fire.wav").toString());
+	private static AudioClip bgm = new AudioClip(ClassLoader.getSystemResource("finalBgm.mp3").toString());
+	private static AudioClip fin = new AudioClip(ClassLoader.getSystemResource("fin.mp3").toString());
+	private static AudioClip fail = new AudioClip(ClassLoader.getSystemResource("fail.mp3").toString());
 	static int i=0;
 	static int frame =0;
 	
@@ -51,6 +47,7 @@ public class EarthGameView {
 	EarthGameView.home = new ArrayList<>();
 	EarthGameView.summon = new ArrayList<>();
 	EarthGameView.endImg = new Image("clear.png",960,720,false,false);
+	
 	for(int i=1;i<=23;i++) {
 		String temp = ""+i;
 		if(i<10)temp="0"+i;
@@ -98,6 +95,7 @@ public class EarthGameView {
 			createCharButton(temp,i);
 			temp.setOnAction((event)->
 			{
+				bclick.play();
 				drawHero(i);
 			});
 	        temp.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -105,6 +103,7 @@ public class EarthGameView {
 	        k++;
 		}
 		goback.setOnAction((event)->{
+			bclick.play();
 			drawHome();
 		});
 		menubar.getChildren().add(goback);
@@ -126,7 +125,7 @@ public class EarthGameView {
 		dc.drawImage(de, 0, 0);
 		dc.setFont(TEXT_FONT);
 		dc.setFill(Color.ALICEBLUE);
-		dc.fillText("LV :"+i.getLv()+"  Exp : "+i.getExp()+"/"+i.getMaxexplv()[i.getLv()]+"\n"
+		dc.fillText("LV :"+i.getLv()+"  Exp : "+i.getExp()+"/"+character.getMaxexplv()[i.getLv()]+"\n"
 				+ "ATK : "+i.getAttack()+"\n"
 						+ "ATK Range : "+i.getAtkspeed()+"\n"
 								+ "ATK Speed : "+i.getAtkspeed(), 40, 50);
@@ -154,9 +153,11 @@ public class EarthGameView {
 	
 
 		goback.setOnAction((event)->{
+			bclick.play();
 			drawCharSelection();
 		});
 		up.setOnAction((event)->{
+			bclick.play();
 			drawSacrifice(i);
 		});
 		
@@ -171,8 +172,6 @@ public class EarthGameView {
 	}
 
 	private static void drawSacrifice( character hero) {
-		// TODO Auto-generated method stub
-		int expForUpgrade = 0;
 		StackPane home = new StackPane();
 		Canvas chome = new Canvas(EARTH_WIDTH,EARTH_HEIGHT);
 		GraphicsContext gc = chome.getGraphicsContext2D();
@@ -185,12 +184,13 @@ public class EarthGameView {
 				ButtonAtHome temp = new ButtonAtHome(i.getID()+"");
 				createCharButton(temp, i);
 				temp.setOnAction((event) -> {
+					bclick.play();
 					System.out.println(i.getName() + i.isMaterail() + "");
 					if (i.isMaterail() == false) {
-						model.tempexp += i.getExp()+character.getMaxexplv()[i.getLv()-1];
+						EarthGameModel.tempexp += i.getExp()+character.getMaxexplv()[i.getLv()-1];
 						temp.setText("" + (i.getExp()+character.getMaxexplv()[i.getLv()]-1));
 					} else {
-						model.tempexp -= i.getExp()+character.getMaxexplv()[i.getLv()-1];
+						EarthGameModel.tempexp -= i.getExp()+character.getMaxexplv()[i.getLv()-1];
 						temp.setText(i.getName());
 					}
 					i.toggleMat();
@@ -206,8 +206,9 @@ public class EarthGameView {
 		HBox menubar =new HBox();
 		ButtonAtHome confirm =new ButtonAtHome("confirm");
 		confirm.setOnAction(event -> {
-			hero.gainExp(model.tempexp);
-			model.tempexp=0;
+			bclick.play();
+			hero.gainExp(EarthGameModel.tempexp);
+			EarthGameModel.tempexp=0;
 			for(int j=model.getMyhero().size()-1;j>=0;j--) {
 				if(model.getMyhero().get(j).isMaterail() == true) {
 					model.getMyhero().remove(j);
@@ -217,6 +218,7 @@ public class EarthGameView {
 		});
 		ButtonAtHome goback = new ButtonAtHome("<==");
 		goback.setOnAction((event)->{
+			bclick.play();
 			for(character i: model.getMyhero()) {
 				i.setMaterail(false);
 			}
@@ -233,12 +235,10 @@ public class EarthGameView {
 	
 
 	public static void drawHome() {
-		
+		bgm.play();
 		StackPane home = new StackPane();
 		Canvas chome = new Canvas(EARTH_WIDTH,EARTH_HEIGHT);
 		GraphicsContext gc = chome.getGraphicsContext2D();
-		Font f = TEXT_FONT;
-		
 		HBox menubar = new HBox();
 		menubar.setPadding(new Insets(50));
 		menubar.setAlignment(Pos.BOTTOM_CENTER);
@@ -271,16 +271,20 @@ public class EarthGameView {
 
 		ButtonAtHome Character = new ButtonAtHome("Army");
 		Character.setOnAction((event) ->{
+			bclick.play();
 			aniHome.stop();
 			drawCharSelection();
 		});
 		ButtonAtHome Play = new ButtonAtHome("Play");
 		Play.setOnAction(event -> {
+			bclick.play();
 			aniHome.stop();
+			EarthGameView.bgm.stop();
 			InGame game = new InGame(primaryStage,model);
 		});
 		ButtonAtHome Shop = new ButtonAtHome("Shop");
 		Shop.setOnAction((event) ->{
+			bclick.play();
 			aniHome.stop();
 			drawCharPage();
 		});
@@ -296,7 +300,7 @@ public class EarthGameView {
 	private static void drawCharPage() {
 		// TODO Auto-generated method stub
 		StackPane home = new StackPane();
-		home.setPadding(new Insets(10));
+	
 		Canvas cChar = new Canvas(EARTH_WIDTH,EARTH_HEIGHT);
 		GraphicsContext gc = cChar.getGraphicsContext2D();
 		Image img = new Image("shoppage.png");
@@ -307,6 +311,7 @@ public class EarthGameView {
 		ButtonAtHome normalSummon = new ButtonAtHome("Normol 10G");
 		normalSummon.setOnAction(
 				(event)->{
+					bclick.play();
 					character temp = summon(0);
 					PreDrawSummon( 0,temp);
 				}
@@ -314,23 +319,31 @@ public class EarthGameView {
 		ButtonAtHome epicSummon = new ButtonAtHome("Epic 99G");
 		epicSummon.setOnAction(
 				(event)->{
+					bclick.play();
 					character temp = summon(1);
 					PreDrawSummon( 1,temp);
 				}
 				);
-		menubar.getChildren().addAll(normalSummon,epicSummon);
+		
 		
 		HBox topbar = new HBox();
 		ButtonAtHome gotoHome = new ButtonAtHome("goBack");
 		gotoHome.setOnAction((event)->{
+			bclick.play();
 			drawHome();
 		});
+		menubar.getChildren().addAll(gotoHome,normalSummon,epicSummon);
+		
 		Text curMoney = new Text("Money : "+model.getMoney());
+		curMoney.setFont(TEXT_FONT);
+		curMoney.setFill(Color.GOLD);
 		topbar.setSpacing(15);
-		topbar.getChildren().addAll(gotoHome,curMoney);
+		topbar.setPadding(new Insets(20));
+		topbar.getChildren().addAll(curMoney);
 		BorderPane menu = new BorderPane();
 		menu.setTop(topbar);
 		menu.setBottom(menubar);
+		menubar.setPadding(new Insets(20));
 		
 		home.getChildren().addAll(cChar,menu);
 		topbar.setAlignment(Pos.TOP_CENTER);
@@ -343,10 +356,12 @@ public class EarthGameView {
 		primaryStage.setScene(scene);
 		
 	}
-	public static void drawClearGame() {
+
+	public static void drawClearGame(String earth) {
+	
 		StackPane home = new StackPane();
-		String clear = "";
-		String earth = "Clear";
+		if(earth.equals("Clear"))fin.play();
+		else fail.play();
 		Canvas cChar = new Canvas(640*1.5,480*1.5);
 		GraphicsContext gc = cChar.getGraphicsContext2D();
 		Font font = new Font("Merkur", 60*1.5);
@@ -378,6 +393,7 @@ public class EarthGameView {
 		ani.setDaemon(true);
 		ani.start();
 		cChar.setOnMouseClicked(value->{
+			bclick.play();
 			ani.stop();
 			drawHome();
 		});
@@ -411,6 +427,7 @@ public class EarthGameView {
 		primaryStage.setScene(scene);
 		ani.start();
 		cChar.setOnMouseClicked(value->{
+			bclick.play();
 			drawSummon(type, charhero);
 		});
 	}
@@ -427,15 +444,17 @@ public class EarthGameView {
 		menubar.setSpacing(15);
 		ButtonAtHome again = new ButtonAtHome("Again");
 		again.setOnAction((event)->{
+			bclick.play();
 			character temp = summon(type);
 			drawSummon(type,temp);
 		});
 		ButtonAtHome confirm = new ButtonAtHome("Confirm");
 		confirm.setOnAction((event)->{
+			bclick.play();
 			drawHome();
 		});
 		menubar.getChildren().addAll(again,confirm);
-		
+		menubar.setPadding(new Insets(20));
 		HBox topbar = new HBox();
 		BorderPane menu = new BorderPane();
 		//menu.setTop(topbar);
