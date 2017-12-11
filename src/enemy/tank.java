@@ -31,7 +31,7 @@ public class tank extends enemy {
 		}
 		frame++;
 
-		gc.drawImage(img.get(count%5), (getPosX()-30)*1.5, (getPosY()-40)*1.5);
+		gc.drawImage(img.get(count%5), (getPosX()-30+20)*1.5, (getPosY()-40+20)*1.5);
 		if (count==3 && getHp()!=0) count=0;
 		this.drawHpBar(gc);
 	}

@@ -27,7 +27,7 @@ public class Boss extends enemy {
 		}
 		frame++;
 		
-		gc.drawImage(img.get(count%3), (getPosX()-50)*1.5, (getPosY()-50)*1.5);
+		gc.drawImage(img.get(count%3), (getPosX()-50+20)*1.5, (getPosY()-50+20)*1.5);
 		this.drawHpBar(gc);
 		
 		
