@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Character.character;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -420,8 +421,19 @@ public class EarthGameView {
 						e.printStackTrace();
 					}
 				}
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						drawSummon(type, charhero);
+						
+					}
+				});
+				
 			}
 		});
+		
 		home.getChildren().addAll(cChar);
 		Scene scene = new Scene(home);
 		primaryStage.setScene(scene);
