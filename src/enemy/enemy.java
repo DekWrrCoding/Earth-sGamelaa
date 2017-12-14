@@ -9,14 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import model.Entity;
 
-public  class enemy extends Entity implements IRenderable {
+public  class Enemy extends Entity implements IRenderable {
 	private int hp;
 	private int speed;
 	protected int maxHp;
 	private boolean isLocked = false;
 	protected List<Image> img;
 
-	public enemy(int hp, int speed,double d,double e) {
+	public Enemy(int hp, int speed,double d,double e) {
 		super();
 		this.hp = hp;
 		this.maxHp = hp;
@@ -25,14 +25,14 @@ public  class enemy extends Entity implements IRenderable {
 		this.posY = e*40 ;
 		this.img = new ArrayList<>();
 	}
-	public enemy(enemy enemy) {
+	public Enemy(Enemy Enemy) {
 		// TODO Auto-generated constructor stub
-		this.hp = enemy.hp;
-		this.maxHp = enemy.hp;
-		this.speed = enemy.speed;
-		this.posX = enemy.posX;
-		this.posY = enemy.posY ;
-		this.img = enemy.img;
+		this.hp = Enemy.hp;
+		this.maxHp = Enemy.hp;
+		this.speed = Enemy.speed;
+		this.posX = Enemy.posX;
+		this.posY = Enemy.posY ;
+		this.img = Enemy.img;
 	}
 	public boolean isLocked() {
 		return isLocked;
@@ -85,7 +85,7 @@ public  class enemy extends Entity implements IRenderable {
 		gc.strokeRect(posX*1.5, posY*1.5, 40*1.5, 5*1.5);
 		if(this.isLocked)gc.setFill(Color.GREY);
 		else gc.setFill(Color.CRIMSON);
-		gc.fillRect(posX*1.5, posY*1.5,((double)(this.getHp())/(double)this.maxHp)*40, 5*1.5);
+		gc.fillRect(posX*1.5, posY*1.5,((double)(this.getHp())/(double)this.maxHp)*60, 5*1.5);
 	}
 
 	@Override

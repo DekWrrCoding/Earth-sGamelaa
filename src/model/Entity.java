@@ -23,8 +23,8 @@ public abstract class Entity implements IRenderable{
 		return posX;
 	}
 
-	public void setPosX(int posX) {
-		this.posX = posX;
+	public void setPosX(double d) {
+		this.posX = d;
 	}
 
 	public double getPosY() {
@@ -33,6 +33,11 @@ public abstract class Entity implements IRenderable{
 
 	public void setPosY(int posY) {
 		this.posY = posY;
+	}
+
+	public void setPosX(int x) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Inteface.IRenderable;
-import enemy.enemy;
+import enemy.Enemy;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import model.Entity;
 
-public  class character extends Entity {
-	protected List<enemy> lockOnEnemy = new ArrayList<>();
+public  class Character extends Entity {
+	protected List<Enemy> lockOnEnemy = new ArrayList<>();
 	protected int numLockEnemy ;
 	static int IDcount = 0;
 	static final int[] maxExpLv = {0,10,20,50,100,150,250,400,600,900};
 	int exp=5;
 	int lv = 1;
+	Image img;
 	String locol ;
 	String logoUrl;
 	String name;
@@ -33,7 +34,7 @@ public  class character extends Entity {
 	public boolean action(int frame) {
 		boolean bool = false;
 		if(frame % this.atkspeed == 0) {
-				for( enemy i: lockOnEnemy) {
+				for( Enemy i: lockOnEnemy) {
 				
 				this.attack(i);
 				}
@@ -47,16 +48,16 @@ public  class character extends Entity {
 		this.lockOnEnemy = null;
 		this.lockOnEnemy = new ArrayList<>();
 	}
-	public void attack(enemy i) {
+	public void attack(Enemy i) {
 		// TODO Auto-generated method stub
-		((enemy)i).takeDamage(this.attack);
+		((Enemy)i).takeDamage(this.attack);
 		
 		
 	}
 	public boolean isMaterail() {
 		return isMaterail;
 	}
-	character(character other) {
+	Character(Character other) {
 		super();
 	
 		this.name = other.name;
@@ -76,7 +77,7 @@ public  class character extends Entity {
 	public void setMaterail(boolean isMaterail) {
 		this.isMaterail = isMaterail;
 	}
-	public character(String name, int star, int attack, int atkspeed, int atkrange,String imgUrl,String logoUrl) {
+	public Character(String name, int star, int attack, int atkspeed, int atkrange,String imgUrl,String logoUrl) {
 		super();
 		this.name = name;
 		this.star = star;
@@ -94,13 +95,13 @@ public  class character extends Entity {
 	}
 	public void gainExp(int gexp) {
 		this.exp+=gexp;
-		while(this.exp>=character.maxExpLv[this.lv]) {
+		while(this.exp>=Character.maxExpLv[this.lv]) {
 			levelup();
 		}
 	}
 	private void levelup() {
 		// TODO Auto-generated method stub
-		exp-=character.maxExpLv[this.lv];
+		exp-=Character.maxExpLv[this.lv];
 		lv++;
 		this.attack *=1.2;
 		this.atkspeed *=1.2;
@@ -141,8 +142,8 @@ public  class character extends Entity {
 	@Override
 	public void draw(GraphicsContext gc) {
 		// TODO Auto-generated method stub
-		Image img = new Image("tower.png",60,60,false,false);
-		gc.drawImage(img, this.posX*1.5, this.posY*1.5);
+		
+		gc.drawImage(this.img, this.posX*1.5, this.posY*1.5);
 		gc.fillText(this.getName(), this.posX*1.5, this.posY*1.5);
 	}
 	@Override

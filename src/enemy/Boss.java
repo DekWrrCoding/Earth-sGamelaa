@@ -3,7 +3,7 @@ package enemy;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Boss extends enemy {
+public class Boss extends Enemy {
 	private int count =0;
 	private String[] imgUrl= {"boss1.png","boss2.png","boss3.png"};
 	private int frame = 0;
@@ -16,10 +16,10 @@ public class Boss extends enemy {
 			this.img.add(temp);
 		}
 	}
-	public Boss(enemy enemy) {
+	public Boss(Enemy Enemy) {
 		// TODO Auto-generated constructor stub
-		super(enemy.getHp(), enemy.getSpeed(), enemy.getPosX()/40, enemy.getPosY()/40);
-		this.img = enemy.img;
+		super(Enemy.getHp(), Enemy.getSpeed(), Enemy.getPosX()/40, Enemy.getPosY()/40);
+		this.img = Enemy.img;
 	}
 	public void draw(GraphicsContext gc) {
 		if (frame%5==0) {

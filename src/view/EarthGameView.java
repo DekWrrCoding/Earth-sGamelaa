@@ -3,7 +3,8 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
-import Character.character;
+import Character.Character;
+import MyException.MyException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -61,7 +62,7 @@ public class EarthGameView {
 	}
 		
 	}
-	public static void createCharButton(Button temp,character i) {
+	public static void createCharButton(Button temp,Character i) {
 		temp.setStyle("-fx-min-height: 60px;\n" + 
 				"    -fx-min-width: 60px;"
 				+ "-fx-background-color:"+i.getLocol()+";"
@@ -91,7 +92,7 @@ public class EarthGameView {
 		drawBackground(gc);
 		ButtonAtHome goback = new ButtonAtHome("<==");
 		int k=0;
-		for(character i : model.getMyhero()) {
+		for(Character i : model.getMyhero()) {
 			ButtonAtHome temp = new ButtonAtHome(i.getID()+"");//(i.getName()+"( * "+i.getStar()+")");
 			createCharButton(temp,i);
 			temp.setOnAction((event)->
@@ -121,17 +122,17 @@ public class EarthGameView {
 		gc.drawImage(bg,0,0);
 		
 	}
-	public static void makeCharInfo(GraphicsContext dc,character i) {
+	public static void makeCharInfo(GraphicsContext dc,Character i) {
 		Image de = new Image("detail.png",250,150,false,false);
 		dc.drawImage(de, 0, 0);
 		dc.setFont(TEXT_FONT);
 		dc.setFill(Color.ALICEBLUE);
-		dc.fillText("LV :"+i.getLv()+"  Exp : "+i.getExp()+"/"+character.getMaxexplv()[i.getLv()]+"\n"
+		dc.fillText("LV :"+i.getLv()+"  Exp : "+i.getExp()+"/"+Character.getMaxexplv()[i.getLv()]+"\n"
 				+ "ATK : "+i.getAttack()+"\n"
 						+ "ATK Range : "+i.getAtkspeed()+"\n"
 								+ "ATK Speed : "+i.getAtkspeed(), 40, 50);
 	}
-	private static void drawHero(character i) {
+	private static void drawHero(Character i) {
 		// TODO Auto-generated method stub
 		StackPane home = new StackPane();
 		BorderPane hero = new BorderPane();
@@ -172,7 +173,7 @@ public class EarthGameView {
 		primaryStage.setScene(scene);
 	}
 
-	private static void drawSacrifice( character hero) {
+	private static void drawSacrifice( Character hero) {
 		StackPane home = new StackPane();
 		Canvas chome = new Canvas(EARTH_WIDTH,EARTH_HEIGHT);
 		GraphicsContext gc = chome.getGraphicsContext2D();
@@ -180,7 +181,7 @@ public class EarthGameView {
 		BorderPane charselection = new BorderPane();
 		GridPane innerPane = new GridPane();
 		int k=0;
-		for(character i : model.getMyhero()) {
+		for(Character i : model.getMyhero()) {
 			if (i.getID() != hero.getID()) {
 				ButtonAtHome temp = new ButtonAtHome(i.getID()+"");
 				createCharButton(temp, i);
@@ -188,10 +189,10 @@ public class EarthGameView {
 					bclick.play();
 					System.out.println(i.getName() + i.isMaterail() + "");
 					if (i.isMaterail() == false) {
-						EarthGameModel.tempexp += i.getExp()+character.getMaxexplv()[i.getLv()-1];
-						temp.setText("" + (i.getExp()+character.getMaxexplv()[i.getLv()]-1));
+						EarthGameModel.tempexp += i.getExp()+Character.getMaxexplv()[i.getLv()-1];
+						temp.setText("" + (i.getExp()+Character.getMaxexplv()[i.getLv()]-1));
 					} else {
-						EarthGameModel.tempexp -= i.getExp()+character.getMaxexplv()[i.getLv()-1];
+						EarthGameModel.tempexp -= i.getExp()+Character.getMaxexplv()[i.getLv()-1];
 						temp.setText(i.getName());
 					}
 					i.toggleMat();
@@ -220,7 +221,7 @@ public class EarthGameView {
 		ButtonAtHome goback = new ButtonAtHome("<==");
 		goback.setOnAction((event)->{
 			bclick.play();
-			for(character i: model.getMyhero()) {
+			for(Character i: model.getMyhero()) {
 				i.setMaterail(false);
 			}
 			drawHero( hero);
@@ -313,16 +314,16 @@ public class EarthGameView {
 		normalSummon.setOnAction(
 				(event)->{
 					bclick.play();
-					character temp = summon(0);
-					PreDrawSummon( 0,temp);
+					Character temp = summon(0);
+					if(temp!=null)PreDrawSummon( 0,temp);
 				}
 				);
 		ButtonAtHome epicSummon = new ButtonAtHome("Epic 99G");
 		epicSummon.setOnAction(
 				(event)->{
 					bclick.play();
-					character temp = summon(1);
-					PreDrawSummon( 1,temp);
+					Character temp = summon(1);
+					if(temp!=null)PreDrawSummon( 1,temp);
 				}
 				);
 		
@@ -399,7 +400,7 @@ public class EarthGameView {
 			drawHome();
 		});
 	}
-	private static void PreDrawSummon(int type,character charhero) {
+	private static void PreDrawSummon(int type,Character charhero) {
 		// TODO Auto-generated method stub
 		StackPane home = new StackPane();
 		home.setPadding(new Insets(10));
@@ -421,15 +422,7 @@ public class EarthGameView {
 						e.printStackTrace();
 					}
 				}
-				Platform.runLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						drawSummon(type, charhero);
-						
-					}
-				});
+				
 				
 			}
 		});
@@ -443,7 +436,7 @@ public class EarthGameView {
 			drawSummon(type, charhero);
 		});
 	}
-	private static void drawSummon(int type,character charhero) {
+	private static void drawSummon(int type,Character charhero) {
 		// TODO Auto-generated method stub
 		StackPane home = new StackPane();
 		//home.setPadding(new Insets(10));
@@ -457,7 +450,7 @@ public class EarthGameView {
 		ButtonAtHome again = new ButtonAtHome("Again");
 		again.setOnAction((event)->{
 			bclick.play();
-			character temp = summon(type);
+			Character temp = summon(type);
 			drawSummon(type,temp);
 		});
 		ButtonAtHome confirm = new ButtonAtHome("Confirm");
@@ -465,7 +458,10 @@ public class EarthGameView {
 			bclick.play();
 			drawHome();
 		});
-		menubar.getChildren().addAll(again,confirm);
+		Text cMon = new Text("Money : "+model.getMoney());
+		cMon.setFill(Color.GOLD);
+		cMon.setFont(TEXT_FONT);
+		menubar.getChildren().addAll(again,confirm,cMon);
 		menubar.setPadding(new Insets(20));
 		HBox topbar = new HBox();
 		BorderPane menu = new BorderPane();
@@ -482,19 +478,29 @@ public class EarthGameView {
 		
 	}
 	
-	private static character summon(int type) {
+	public static Character summon(int type) {
 		if (model.getMoney()-model.getTypesummon()[type] >= 0) {
-			character tempchar = model.randomchar(type);
+			Character tempchar = model.randomchar(type);
 			model.decreaseMoney(model.getTypesummon()[type]);
 			model.getMyhero().add(tempchar);
 			String temp = "";
-			for (character i : model.getMyhero()) {
+			for (Character i : model.getMyhero()) {
 				temp += i.getName() + "\n";
 			}
 			System.out.println(temp);
 			return tempchar;
 		}
-		return null;
+			else {
+				try {
+					throw new MyException("Not enought money");
+				} catch (MyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			return null;
+		}
+	
 		
 		
 	}

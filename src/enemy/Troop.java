@@ -6,11 +6,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public class troopE extends enemy {
+public class Troop extends Enemy {
 	private int count =0;
 	private String[] imgUrl= {"troopE1.png","troopE2.png","troopE3.png","troopE4.png"};
 	private int frame = 0;
-	public troopE(int x,int y) {
+	public Troop(int x,int y) {
 		super(1000, 4,x,y);
 		// TODO Auto-generated constructor stub
 		
@@ -19,10 +19,10 @@ public class troopE extends enemy {
 			this.img.add(temp);
 		}
 	}
-	public troopE(enemy enemy) {
+	public Troop(Enemy Enemy) {
 		// TODO Auto-generated constructor stub
-		super(enemy.getHp(), enemy.getSpeed(), enemy.getPosX()/40, enemy.getPosY()/40);
-		this.img = enemy.img;
+		super(Enemy.getHp(), Enemy.getSpeed(), Enemy.getPosX()/40, Enemy.getPosY()/40);
+		this.img = Enemy.img;
 	}
 	public void draw(GraphicsContext gc) {
 		if (frame%5==0) {

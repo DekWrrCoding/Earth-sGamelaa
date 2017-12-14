@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class tank extends enemy {
+public class Tank extends Enemy {
 	private int count =0;
 	private String[] imgUrl= {"tank1.png","tank2.png","tank3.png","tank4.png"};
 	public int frame = 0;
 
-	public tank(int X, int Y) {
+	public Tank(int X, int Y) {
 		super(2500, 1, X, Y);
 		// TODO Auto-generated constructor stub
 	
@@ -19,10 +19,10 @@ public class tank extends enemy {
 			this.img.add(temp);
 		}
 	}
-	public tank(enemy enemy) {
+	public Tank(Enemy Enemy) {
 		// TODO Auto-generated constructor stub
-		super(enemy.getHp(), enemy.getSpeed(), enemy.getPosX()/40, enemy.getPosY()/40);
-		this.img = enemy.img;
+		super(Enemy.getHp(), Enemy.getSpeed(), Enemy.getPosX()/40, Enemy.getPosY()/40);
+		this.img = Enemy.img;
 	}
 	public void draw(GraphicsContext gc) {
 	

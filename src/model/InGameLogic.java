@@ -6,42 +6,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Character.assault;
-import Character.character;
-import Character.engineer;
-import Character.nuker;
-import Character.sniper;
+import Character.Assault;
+import Character.Character;
+import Character.Engineer;
+import Character.Nuker;
+import Character.Sniper;
 import Inteface.IRenderable;
 import atkAnimation.atkanimation;
 import enemy.Boss;
-import enemy.enemy;
-import enemy.tank;
-import enemy.troopE;
+import enemy.Enemy;
+import enemy.Tank;
+import enemy.Troop;
 import view.GameScreen;
 
 public class InGameLogic {
-	private List<enemy> tempE ;
-	private map curStage;
-	private List<enemy> bSkillEnemy ;
-	private List<character> usedHero;
+	private List<Enemy> tempE ;
+	private Map curStage;
+	private List<Enemy> bSkillEnemy ;
+	private List<Character> usedHero;
 	private int life = 10;
 	private int SP = 0;
 	public static List<IRenderable> listEntities = new ArrayList<>();
-	public InGameLogic(map curStage,List<character> usehero){
+	public InGameLogic(Map curStage,List<Character> usehero){
 		this.bSkillEnemy = new ArrayList<>();
 		this.curStage=curStage;
 		this.usedHero=usehero;
-		this.tempE = new ArrayList<enemy>();
+		this.tempE = new ArrayList<Enemy>();
 		for(int i =0;i<this.curStage.getListEnemy().size();i++) {
 			tempE.add(this.curStage.getListEnemy().get(i));
 			System.out.println("add");
+			System.out.println(this.curStage.getListEnemy().get(i).getHp());
 		}
 		int k=0;
-		for(character i : this.usedHero) {
-			i.setPosX(this.curStage.getLocationTower()[k][0]);
-			i.setPosY(this.curStage.getLocationTower()[k][1]);
-			k++;
-		}
+//		for(character i : this.usedHero) {
+//			i.setPosX(this.curStage.getLocationTower()[k][0]);
+//			i.setPosY(this.curStage.getLocationTower()[k][1]);
+//			k++;
+//		}
 		
 		listEntities.add(curStage);
 		for(int index =0;index<usedHero.size();index++) {
@@ -56,13 +57,13 @@ public class InGameLogic {
 	public void setLife(int life) {
 		this.life = life;
 	}
-	public List<enemy> getTempE() {
+	public List<Enemy> getTempE() {
 		return tempE;
 	}
-	public map getCurStage() {
+	public Map getCurStage() {
 		return curStage;
 	}
-	public List<character> getUsedHero() {
+	public List<Character> getUsedHero() {
 		return usedHero;
 	}
 	public int getSP() {
@@ -76,7 +77,7 @@ public class InGameLogic {
 	}
 
 	public  boolean isNoEnemy() {
-		for(IRenderable i : InGameLogic.listEntities)if(i instanceof enemy)return false;
+		for(IRenderable i : InGameLogic.listEntities)if(i instanceof Enemy)return false;
 		return true;
 		
 	}
@@ -93,8 +94,8 @@ public class InGameLogic {
 	private void skill() {
 		// TODO Auto-generated method stub
 		//this.SP-=10;
-		for(enemy i : this.bSkillEnemy) {
-			i.takeDamage(5000);
+		for(Enemy i : this.bSkillEnemy) {
+			i.takeDamage(2000);
 		}
 		this.bSkillEnemy=null;
 		this.bSkillEnemy=new ArrayList<>();
@@ -103,21 +104,21 @@ public class InGameLogic {
 	private void heroAttack(int frame) {
 		// TODO Auto-generated method stub
 		for(int i =0; i<InGameLogic.listEntities.size(); i++) {
-			if(InGameLogic.listEntities.get(i) instanceof nuker) {
+			if(InGameLogic.listEntities.get(i) instanceof Nuker) {
 				//System.out.println(((character)entity).name);
-				((nuker)InGameLogic.listEntities.get(i)).action(frame);
+				((Nuker)InGameLogic.listEntities.get(i)).action(frame);
 			}
-			if(InGameLogic.listEntities.get(i) instanceof sniper ) {
+			if(InGameLogic.listEntities.get(i) instanceof Sniper ) {
 				//System.out.println(((character)entity).name);
-				((sniper)InGameLogic.listEntities.get(i)).action(frame);
+				((Sniper)InGameLogic.listEntities.get(i)).action(frame);
 			}
-			if(InGameLogic.listEntities.get(i) instanceof assault ) {
+			if(InGameLogic.listEntities.get(i) instanceof Assault ) {
 				//System.out.println(((character)entity).name);
-				((assault)InGameLogic.listEntities.get(i)).action(frame);
+				((Assault)InGameLogic.listEntities.get(i)).action(frame);
 			}
-			if(InGameLogic.listEntities.get(i) instanceof engineer ) {
+			if(InGameLogic.listEntities.get(i) instanceof Engineer ) {
 				//System.out.println(((character)entity).name);
-				((engineer)InGameLogic.listEntities.get(i)).action(frame);
+				((Engineer)InGameLogic.listEntities.get(i)).action(frame);
 			}
 		}
 		
@@ -128,7 +129,7 @@ public class InGameLogic {
 		for(int i = InGameLogic.listEntities.size()-1;i>=0;i--) {
 			if(InGameLogic.listEntities.get(i).isDestroyed() || InGameLogic.listEntities.get(i).isVisible()==false ) {
 				g.paintComponent();
-				if(InGameLogic.listEntities.get(i) instanceof enemy)this.SP+=1;
+				if(InGameLogic.listEntities.get(i) instanceof Enemy)this.SP+=1;
 				InGameLogic.listEntities.remove(i);
 			}
 		}
@@ -137,14 +138,14 @@ public class InGameLogic {
 	private void heroLockOn() {
 		// TODO Auto-generated method stub
 		for(IRenderable entity : InGameLogic.listEntities) {
-			if(entity instanceof character) {
+			if(entity instanceof Character) {
 				for(IRenderable otherentity : InGameLogic.listEntities) {
-					if(otherentity instanceof enemy) {
-						if(entity instanceof nuker)entity =(nuker)entity;
-						if(entity instanceof sniper)entity =(sniper)entity;
-						if(entity instanceof assault)entity =(assault)entity;
-						if(entity instanceof engineer)entity =(engineer)entity;
-						((character) entity).attackEnemy(otherentity);
+					if(otherentity instanceof Enemy) {
+						if(entity instanceof Nuker)entity =(Nuker)entity;
+						if(entity instanceof Sniper)entity =(Sniper)entity;
+						if(entity instanceof Assault)entity =(Assault)entity;
+						if(entity instanceof Engineer)entity =(Engineer)entity;
+						((Character) entity).attackEnemy(otherentity);
 					}
 				}
 			}
@@ -154,13 +155,13 @@ public class InGameLogic {
 	private void updateEntities(int frame) {
 		// TODO Auto-generated method stub
 		for(IRenderable entity : InGameLogic.listEntities) {
-			if(entity instanceof enemy ) {
-				int[] pos = curStage.calculatePos((enemy)entity);
-				((enemy)entity).updatePos(pos);
-				if(((enemy)entity).isReached() && entity.isDestroyed() == false) {
+			if(entity instanceof Enemy ) {
+				int[] pos = curStage.calculatePos((Enemy)entity);
+				((Enemy)entity).updatePos(pos);
+				if(((Enemy)entity).isReached() && entity.isDestroyed() == false) {
 					this.life--;
-					((enemy) entity).setDestroyed(true);
-					((enemy) entity).setVisible(false);	
+					((Enemy) entity).setDestroyed(true);
+					((Enemy) entity).setVisible(false);	
 				}
 			}
 			if(entity instanceof atkanimation) {
@@ -176,16 +177,18 @@ public class InGameLogic {
 			Random rand = new Random();
 			int x = rand.nextInt(this.tempE.size());
 			IRenderable temp = null;
-			if(this.tempE.get(x) instanceof tank) {
-			temp = new tank((this.tempE.get(x)) );
+			if(this.tempE.get(x) instanceof Tank) {
+			temp = new Tank((this.tempE.get(x)) );
 			}
-			else if(this.tempE.get(x) instanceof troopE) {
-				temp = new troopE(this.tempE.get(x));
+			else if(this.tempE.get(x) instanceof Troop) {
+				temp = new Troop(this.tempE.get(x));
 			}
 			else if(this.tempE.get(x) instanceof Boss) {
 				temp = new Boss(this.tempE.get(x));
 			}
 			InGameLogic.listEntities.add((IRenderable)temp);
+			System.out.println(((Enemy)temp).getHp());
+			
 			this.tempE.remove(x);
 		}
 		
@@ -199,8 +202,8 @@ public class InGameLogic {
 	}
 	public void lockedskill(double mx, double my) {
 		for(IRenderable entity : this.listEntities) {
-			if(entity instanceof enemy && Distance(	((enemy) entity).getPosX(),((enemy) entity).getPosY(),mx,my) <= 300)  {
-				this.bSkillEnemy.add((enemy) entity);
+			if(entity instanceof Enemy && Distance(	((Enemy) entity).getPosX(),((Enemy) entity).getPosY(),mx,my) <= 600)  {
+				this.bSkillEnemy.add((Enemy) entity);
 			}
 		}
 		System.out.println(this.bSkillEnemy);
@@ -209,13 +212,14 @@ public class InGameLogic {
 		// TODO Auto-generated method stub
 
 		boolean ans = true;
-		for(IRenderable entity : InGameLogic.listEntities)if(entity instanceof enemy)ans = false;
+		for(IRenderable entity : InGameLogic.listEntities)if(entity instanceof Enemy)ans = false;
 		return ans;
 	}
 	public void newGame() {
 		// TODO Auto-generated method stub
 		this.life = 10;
-		this.tempE = new ArrayList<enemy>(this.curStage.getListEnemy());
+		this.tempE = new ArrayList<Enemy>(this.curStage.getListEnemy());
+		this.usedHero = null;
 		
 	}
 }

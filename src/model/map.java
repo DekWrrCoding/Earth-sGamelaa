@@ -6,32 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Character.character;
+import Character.Character;
 import Inteface.IRenderable;
 import enemy.Boss;
-import enemy.enemy;
-import enemy.tank;
-import enemy.troopE;
+import enemy.Enemy;
+import enemy.Tank;
+import enemy.Troop;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 
 
-public class map extends Entity implements IRenderable{
+public class Map extends Entity implements IRenderable{
 	private String name;
 	private String imgUrl;
 	private int[][] mapInfo;
 	private int[] nEnemy;
-	private List<enemy> listEnemy = new ArrayList<>();
+	private List<Enemy> listEnemy = new ArrayList<>();
 	private int stX,stY,edX,edY;
 	public int[][] locationTower;
 	private int nTower;
-	private character[] tower;
+	private Character[] tower;
 	private int moneyFromMap;
 	private  Image img ;
 	
-	public map(String name, String imgUrl, int[][] mapInfo, int[] nEnemy, int stX, int stY, int edX, int edY,int nTower,int moneyFromMap,int[][] locationTower) {
+	public Map(String name, String imgUrl, int[][] mapInfo, int[] nEnemy, int stX, int stY, int edX, int edY,int nTower,int moneyFromMap,int[][] locationTower) {
 		super();
 		
 		this.name = name;
@@ -46,17 +46,17 @@ public class map extends Entity implements IRenderable{
 		this.locationTower=locationTower;
 		this.moneyFromMap=moneyFromMap;
 		this.nTower = nTower;
-		tower = new character[this.nTower];
+		tower = new Character[this.nTower];
 		for(int i=0;i<nEnemy[0];i++) {
-			enemy type0 = new troopE(this.stX,this.stY);
+			Enemy type0 = new Troop(this.stX,this.stY);
 			listEnemy.add(type0);
 		}
 		for(int i=0;i<nEnemy[1];i++) {
-			enemy type0 = new tank(this.stX,this.stY);
+			Enemy type0 = new Tank(this.stX,this.stY);
 			listEnemy.add(type0);
 		}
 		for(int i=0;i<nEnemy[2];i++) {
-			enemy type0 = new Boss(this.stX,this.stY);
+			Enemy type0 = new Boss(this.stX,this.stY);
 			listEnemy.add(type0);
 		}
 		
@@ -95,7 +95,7 @@ public class map extends Entity implements IRenderable{
 		return nTower;
 	}
 
-	public character[] getTower() {
+	public Character[] getTower() {
 		return tower;
 	}
 
@@ -115,7 +115,7 @@ public class map extends Entity implements IRenderable{
 		return nEnemy;
 	}
 
-	public List<enemy> getListEnemy() {
+	public List<Enemy> getListEnemy() {
 		return listEnemy;
 	}
 
@@ -157,7 +157,7 @@ public class map extends Entity implements IRenderable{
 	}
 
 
-	public int[] calculatePos(enemy entity) {
+	public int[] calculatePos(Enemy entity) {
 		// TODO Auto-generated method stub
 		int[] pos = {0,0};
 		int x = (int) (entity.getPosX()/40);
@@ -179,16 +179,16 @@ public class map extends Entity implements IRenderable{
 		else if(this.mapInfo[y][x]==4) {
 			Random rand = new Random();
 			int temp = rand.nextInt()%2;
-			if(temp == 0)pos[1]=2;
-			else pos[1]=-2;
+			if(temp == 0)pos[1]=3;
+			else pos[1]=-3;
 			pos[0] = 0;
 			
 		}
 		else if(this.mapInfo[y][x]==5) {
 			Random rand = new Random();
 			int temp = rand.nextInt()%2;
-			if(temp == 0)pos[0]=2;
-			else pos[0]=-2;
+			if(temp == 0)pos[0]=3;
+			else pos[0]=-3;
 			pos[1] = 0;
 			
 		}

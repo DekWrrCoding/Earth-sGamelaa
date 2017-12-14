@@ -24,7 +24,7 @@ public class engineerAtkAnimation extends atkanimation implements IRenderable {
 		// TODO Auto-generated method stub
 		Image img = engineerAtkAnimation.get(0);
 		//System.out.println(img);
-		gc.drawImage(img,this.e.getPosX()*1.5, this.e.getPosY()*1.5);
+		gc.drawImage(img,this.e.getPosX()*1.5-30, this.e.getPosY()*1.5-30);
 		this.i+=1;
 
 	}

@@ -10,5 +10,6 @@ public interface IRenderable {
 	};
 	public default boolean isVisible() {
 		return this.isVisible();
-	};
+	}
+	
 }
